@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the solver output (skip the header row)
-data = np.loadtxt("output/linear-convection.csv", delimiter=",", skiprows=1)
+data = np.loadtxt("output/convection_nx41.csv", delimiter=",", skiprows=1)
 
 x = data[:, 0]
 u_initial = data[:, 1]

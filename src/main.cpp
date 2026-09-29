@@ -1,19 +1,23 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <cmath>
+#include <string>
 using namespace std;
 
 
 int main()
 {
 
-    int nx = 41;         //Total gird points on [0,2], including both ends
-    double dx = 2.0/(nx-1);     //Difference between the points 
-    
-    int nt = 25;    //Number of time steps
-    double dt = 0.025;    //Difference between each time steps
-    
+    int nx = 321;         //Total grid points on [0,2], including both ends
+    double courant_number = 0.5;    // courant number = c*(dt/dx)
+    double distance = 0.625;    // Total distance travelled by wave pattern
     double c = 1.0;      //wavespeed
+
+    double dx = 2.0/(nx-1);     //Difference between the points 
+    double dt = (dx*courant_number)/c;    //Difference between each time steps
+    int nt = round(distance/(c*dt));    //Number of time steps
+    
     vector<double> points;
     vector<double> u;
 
@@ -42,10 +46,12 @@ int main()
         u_old = u;
     }
 
-    ofstream outf {"output/linear-convection.csv"};
+    string filename = "output/convection_nx" + to_string(nx) + ".csv";
+
+    ofstream outf {filename};
 
     if(!outf){
-        cerr << "output/linear-convection.csv could not be opened for writing!\n";
+        cerr << filename << " could not be opened for writing!\n";
         return 1;
     }
 
